@@ -17,6 +17,7 @@ const clubRouter = require('./routes/clubs.js')();
 app.use("/clubs", clubRouter);
 
 app.get('/userInfo', async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     const userID = req.query.userID;
 
     const results = await db.users.findAll({
