@@ -26,7 +26,10 @@ app.get('/userInfo', async (req, res) => {
         }
     });
 
-    if (results == null) res.json({stuid: "", name: ""});
+    if (results == null){
+        res.json({stuid: "", name: ""});
+        return;
+    }
 
     res.json({name: results[0].name, stuid: results[0].stuid});
 });
