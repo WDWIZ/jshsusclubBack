@@ -26,12 +26,12 @@ app.get('/userInfo', async (req, res) => {
         }
     });
 
-    if (results == null){
-        res.json({stuid: "", name: ""});
+    if (results.length === 0){
+        res.json({name: "", stuid: 0});
         return;
     }
 
-    res.json({name: results[0].name, stuid: results[0].stuid});
+    else res.json({name: results[0].name, stuid: results[0].stuid});
 });
 
 module.exports = app;
