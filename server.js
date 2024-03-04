@@ -16,6 +16,24 @@ app.use(cors({
 const clubRouter = require('./routes/clubs.js')();
 app.use("/clubs", clubRouter);
 
+app.get('/userID', async (req, res) => {
+    const stuid = req.query.stuid || 0;
+
+    const results = await db.users.findAll({
+        attributes: ['id'],
+        where: {
+            stuid: stuid
+        }
+    });
+
+    if (results.length == 0){
+        res.json({userID: 0});
+        return;
+    }
+
+    else res.json({userID: results[0].id})
+});
+
 app.get('/userInfo', async (req, res) => {
     const userID = req.query.userID;
 
