@@ -77,7 +77,7 @@ function club(){
     });
 
     router.get('/applicantsClub/:clubID', async (req, res) => {
-        const clubID = (req.params) ? req.params.clubID : 1;
+        const clubID = (req.params.clubID == "undefined") ? 1 : req.params.clubID;
         let arr;
         const applicants = await user_club.findAll({
             attributes: ["userID"],
@@ -100,7 +100,7 @@ function club(){
         const clubTableName = clubs.tableName;
         const user_clubTableName = user_club.tableName;
 
-        const applicantID = (req.params) ? req.params.applicantID : 32020;
+        const applicantID = (req.params.applicantID == "undefined") ? 32020 : req.params.applicantID;
         const applicantInfo = await users.findAll({
             attributes: ["name", "stuid"],
             where: {id: applicantID}
