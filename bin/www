@@ -37,7 +37,7 @@ db.sequelize.sync().then(() => {
      * Listen on provided port, on all network interfaces.
      */
     server.listen(port, () => {
-      console.log(`Server Listening on ${port}\nOn config mode : ${process.env.NODE_ENV}`);
+      console.log(`Server Listening on ${port}\nOn config mode : ${process.env.NODE_ENV}\nAt ${new Date()}`);
     });
     server.on('error', onError);
     server.on('listening', onListening);
