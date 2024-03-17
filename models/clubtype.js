@@ -13,6 +13,9 @@ module.exports = (seq, DataTypes) => {
         },
         icon: {
             type: DataTypes.STRING
+        },
+        option: {
+            type: DataTypes.TINYINT
         }},
         
         {timestamps: false,

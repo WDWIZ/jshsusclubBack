@@ -3,7 +3,7 @@ const env = process.env;
 
 const development = {
     "username": "root",
-    "password": "I am Mineppl12",
+    "password": "mineppl7783!",
     "database": "jshsus",
     "host": "localhost",
     "dialect": "mysql",
@@ -12,7 +12,7 @@ const development = {
 
 const test = {
     "username": "root",
-    "password": "I am Mineppl12",
+    "password": "mineppl7783!",
     "database": "jshsus",
     "host": "localhost",
     "dialect": "mysql",

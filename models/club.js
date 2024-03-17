@@ -16,6 +16,9 @@ module.exports = (seq, DataTypes) => {
         subleader: {
             type: DataTypes.MEDIUMINT.UNSIGNED
         },
+        maxPeople: {
+            type: DataTypes.TINYINT
+        },
         type: {
             type: DataTypes.TINYINT,
             allowNull: false,
@@ -51,8 +54,10 @@ module.exports = (seq, DataTypes) => {
         })
 
         Club.belongsToMany(models.users, {
-            through: models.user_club,
-            foreignKey: "clubID"
+            through: models.apply,
+            foreignKey: "clubID",
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
         });
     };
 

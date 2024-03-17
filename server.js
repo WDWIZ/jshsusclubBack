@@ -3,6 +3,9 @@ const app = express();
 const cors = require('cors');
 const db = require('./models');
 
+const indexRouter = require('./routes/index.js');
+const clubsRouter = require('./routes/clubs.js');
+
 require('dotenv').config();
 
 express.urlencoded({ extended : false });
@@ -13,34 +16,13 @@ app.use(cors({
     credential: true
 }));
 
-const clubRouter = require('./routes/clubs.js')();
-app.use("/clubs", clubRouter);
-
-app.get('/userID', async (req, res) => {
-    const stuid = req.query.stuid || 0;
-
-    const results = await db.users.findAll({
-        attributes: ['id'],
-        where: {
-            stuid: stuid
-        }
-    });
-
-    if (results.length == 0){
-        res.json({userID: 0});
-        return;
-    }
-
-    else res.json({userID: results[0].id})
-});
-
 app.get('/userInfo', async (req, res) => {
-    const userID = req.query.userID;
+    const accessKey = req.query.accessKey;
 
     const results = await db.users.findAll({
-        attributes: ['stuid', 'name'],
+        attributes: ['stuid', 'name', 'level'],
         where: {
-            id: userID
+            accessKey: accessKey
         }
     });
 
@@ -49,7 +31,10 @@ app.get('/userInfo', async (req, res) => {
         return;
     }
 
-    else res.json({name: results[0].name, stuid: results[0].stuid});
+    res.json(results[0]);
 });
+
+app.use('/', indexRouter);
+app.use('/clubs', clubsRouter);
 
 module.exports = app;
