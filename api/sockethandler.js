@@ -296,7 +296,7 @@ const socketHandler = (io, db) => {
                 await apply.save();
 
                 leader.emit("updateClubs", clubtype);
-                applicant.emit("updateApply", verify.userID);
+                socket.emit("updateApply", verify.userID);
             }
 
             else if (verify.approved == 1){
@@ -308,7 +308,7 @@ const socketHandler = (io, db) => {
                 await apply.save();
 
                 leader.emit("updateClubs", clubtype);
-                applicant.emit("updateApply", verify.userID);
+                socket.emit("updateApply", verify.userID);
             }
         });
     });
