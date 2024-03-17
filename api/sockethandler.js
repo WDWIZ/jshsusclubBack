@@ -105,7 +105,8 @@ const socketHandler = (io, db) => {
                     clubID: clubID,
                     userID: userID,
                     type: clubData.type,
-                    jimang: jimang
+                    jimang: jimang,
+                    approved: 0
                 });
 
                 leader.emit("updateClubs", clubData.type);
@@ -267,14 +268,14 @@ const socketHandler = (io, db) => {
             const applyID = data.applyID;
             const approvedBy = userID;
 
-            const clubtype = await db.apply.findAll({
+            const clubtype = await db.apply.findOne({
                 attributes: ['type'],
                 where: {
                     id: applyID
                 }
             });
 
-            if (clubtype.length == 0) return;
+            if (!clubtype) return;
 
             const verify = await db.apply.findOne({
                 where: {
@@ -294,7 +295,7 @@ const socketHandler = (io, db) => {
                 apply.approved = 1;
                 await apply.save();
 
-                leader.emit("updateClubs", clubtype[0]);
+                leader.emit("updateClubs", clubtype.type);
                 applicant.emit("updateApply", verify.userID);
             }
 
@@ -306,7 +307,7 @@ const socketHandler = (io, db) => {
                 apply.approved = 0;
                 await apply.save();
 
-                leader.emit("updateClubs", clubtype[0]);
+                leader.emit("updateClubs", clubtype.type);
                 applicant.emit("updateApply", verify.userID);
             }
         });
