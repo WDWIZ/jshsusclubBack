@@ -30,7 +30,7 @@ const io = socketio(server, {
     }
 });
 
-require("../api/socketHandler")(io, db);
+require("../api/sockethandler")(io, db);
 
 db.sequelize.sync().then(() => {
     /**
