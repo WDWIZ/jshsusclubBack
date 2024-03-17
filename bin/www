@@ -10,7 +10,6 @@ var http = require('http');
 const socketio = require('socket.io');
 const db = require('../models');
 const dotenv = require('dotenv');
-dotenv.config();
 
 /**
  * Get port from environment and store in Express.
