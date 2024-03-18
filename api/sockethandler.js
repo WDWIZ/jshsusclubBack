@@ -285,8 +285,6 @@ const socketHandler = (io, db) => {
 
             if (!verify) return;
 
-            console.log(clubtype, verify);
-
             if (verify.approved == 0){
                 await db.approved.create({
                     applyID: applyID,
