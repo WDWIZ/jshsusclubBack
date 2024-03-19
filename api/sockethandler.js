@@ -101,6 +101,15 @@ const socketHandler = (io, db) => {
 
                 const jimang = (data.jimang != null) ? data.jimang + 1 : null;
 
+                const verify = await db.apply.count({
+                    where: {
+                        clubID: clubID,
+                        userID: userID
+                    }
+                });
+
+                if (verify > 0) return;
+
                 await db.apply.create({
                     clubID: clubID,
                     userID: userID,
@@ -118,6 +127,15 @@ const socketHandler = (io, db) => {
                     console.log('error occured at user applyInfo');
                     return;
                 }
+
+                const verify = await db.apply.count({
+                    where: {
+                        clubID: clubID,
+                        userID: userID
+                    }
+                });
+
+                if (verify <= 0) return;
 
                 const apply = await db.apply.findOne({where: {id: applied.id}});
                 await apply.destroy();
@@ -286,10 +304,20 @@ const socketHandler = (io, db) => {
             if (!verify) return;
 
             if (verify.approved == 0){
+                const verify2 = await db.approved.count({
+                    where: {
+                        applyID: applyID
+                    }
+                });
+
+                if (verify2 > 0) return;
+                
                 await db.approved.create({
                     applyID: applyID,
                     approvedBy: approvedBy
                 });
+
+                if (verify > 0) return;
 
                 const apply = await db.apply.findByPk(applyID);
                 apply.approved = 1;
@@ -300,6 +328,14 @@ const socketHandler = (io, db) => {
             }
 
             else if (verify.approved == 1){
+                const verify2 = await db.approved.count({
+                    where: {
+                        applyID: applyID
+                    }
+                });
+
+                if (verify2 <= 0) return;
+                
                 const approved = await db.approved.findOne({where: {applyID: applyID}});
                 await approved.destroy();
 
