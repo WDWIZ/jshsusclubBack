@@ -214,6 +214,7 @@ const socketHandler = (io, db) => {
             `SELECT a.id, a.clubID, a.jimang, a.type, JSON_OBJECT('name', u.name, 'stuid', u.stuid, 'id', u.id) AS userInfo
             FROM ${applyTableName} a
             JOIN ${usersTableName} u ON a.userID = u.id
+            WHERE a.clubID in (${hisClub.join(','})
             ORDER BY a.clubID ASC;`;
 
             const _applicants = await db.sequelize.query(sqlQuery, {type: db.sequelize.QueryTypes.SELECT});
