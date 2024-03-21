@@ -233,7 +233,6 @@ const socketHandler = (io, db) => {
                 const clubID = x.clubID;
                 let override = 0;
 
-                console.log(applicantID, x.type, clubID, db.apply);
                 const hisApplies = await db.apply.count({
                     where: {
                         userID: applicantID,
