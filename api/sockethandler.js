@@ -301,8 +301,10 @@ const socketHandler = (io, db) => {
                     id: applyID
                 }
             });
-
+            
             if (!verify) return;
+
+            console.log(verify, applyID);
 
             if (verify.approved == 0){
                 const verify2 = await db.approved.count({
