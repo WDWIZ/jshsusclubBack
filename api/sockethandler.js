@@ -118,7 +118,7 @@ const socketHandler = (io, db) => {
                     approved: 0
                 });
 
-                leader.emit("updateClubs", {clubID, clubtype});
+                leader.emit("updateClubs", {clubID: clubID, type: clubData.type});
                 socket.emit("updateApply", [userID]);
             }
 
