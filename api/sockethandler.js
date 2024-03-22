@@ -119,7 +119,7 @@ const socketHandler = (io, db) => {
                 });
 
                 leader.emit("updateClubs", {clubID, clubtype});
-                socket.emit("updateApply", userID);
+                socket.emit("updateApply", [userID]);
             }
 
             else{
@@ -141,7 +141,7 @@ const socketHandler = (io, db) => {
                 await apply.destroy();
 
                 leader.emit("updateClubs", {clubID, clubtype});
-                socket.emit("updateApply", userID);
+                socket.emit("updateApply", [userID]);
             }
         });
     });
