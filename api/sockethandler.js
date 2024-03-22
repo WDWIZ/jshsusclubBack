@@ -298,8 +298,19 @@ const socketHandler = (io, db) => {
             const clubID = clubData.clubID;
             const clubtype = clubData.type;
 
+            let targs = [];
+
             Object.entries(data).map(async ([applyID, method]) => { 
                 await db.apply.update({ approved: method }, {where: {id: applyID}});
+
+                const targ = await db.apply.findOne({
+                    attributes: ["userID"],
+                    where: {
+                        id: applyID
+                    }
+                });
+
+                targs.push(targ);
 
                 if (method == 0){
                     await db.approved.destroy({
@@ -315,7 +326,8 @@ const socketHandler = (io, db) => {
                 }
             });
 
-            socket.emit("updateClubs", {clubID, clubtype});
+            leader.emit("updateClubs", {clubID, clubtype});
+            applicant.emit("updateApply", targs);
         });
     });
 
