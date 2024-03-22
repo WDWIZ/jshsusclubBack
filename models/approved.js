@@ -14,7 +14,7 @@ module.exports = (seq, DataTypes) => {
             type: DataTypes.MEDIUMINT.UNSIGNED,
             allowNull: false
         }},
-        {tableName : "IDBIapproved"}
+        {tableName : "approved"}
     );
 
     Approved.associate = (models) => {

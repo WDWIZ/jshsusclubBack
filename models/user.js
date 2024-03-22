@@ -22,7 +22,7 @@ module.exports = (seq, DataTypes) => {
             type: DataTypes.TINYINT
         }},
         {timestamps : false,
-        tableName : "IDBIusers"}
+        tableName : "users"}
     );
 
     User.associate = (models) => {

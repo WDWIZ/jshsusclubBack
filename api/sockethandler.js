@@ -270,6 +270,7 @@ const socketHandler = (io, db) => {
                     override: override,
                     approved: approved
                 };
+
                 return result;
             });
 
@@ -284,71 +285,76 @@ const socketHandler = (io, db) => {
         socket.on("update", async (data) => {
             if (!userID) return;
 
-            const applyID = data.applyID;
             const approvedBy = userID;
-
-            const clubtype = await db.apply.findOne({
-                attributes: ['type'],
+            
+            const clubData = await db.apply.findOne({
+                attributes: ["clubID", "type"],
                 where: {
-                    id: applyID
+                    id: Object.entries(data)[0]
                 }
             });
 
-            if (!clubtype) return;
+            if (!clubData) return;
+            const clubID = clubData.clubID;
+            const clubtype = clubData.type;
 
-            const verify = await db.apply.findOne({
+            Object.entries(data).map(async ([applyID, method]) => { 
+                await db.apply.update({ approved: method }, {where: {id: applyID}});
+
+                if (method == 0){
+                    await db.approved.destroy({
+                        where: {applyID: applyID}
+                    });
+                }
+
+                else if (method == 1){
+                    await db.approved.create({
+                        applyID: applyID,
+                        approvedBy: approvedBy
+                    });
+                }
+            });
+
+            socket.emit("updateClubs", {clubID, clubtype});
+        });
+    });
+
+    admin.on('connection', (socket) => {
+        let userID;
+
+        socket.on("login", async (data) => {
+            let _userID = await db.users.findOne({
+                attributes: ['id'],
                 where: {
-                    id: applyID
+                    stuid: data.stuid
                 }
             });
             
-            if (!verify) return;
+            userID = _userID.id;
 
-            console.log(verify, applyID);
+            const info = await db.users.findOne({
+                where: {id: userID}
+            });
+            
+            userData = info;
+        });
 
-            if (verify.approved == 0){
-                const verify2 = await db.approved.count({
-                    where: {
-                        applyID: applyID
-                    }
-                });
-
-                if (verify2 > 0) return;
-                
-                await db.approved.create({
-                    applyID: applyID,
-                    approvedBy: approvedBy
-                });
-
-                if (verify > 0) return;
-
-                const apply = await db.apply.findByPk(applyID);
-                apply.approved = 1;
-                await apply.save();
-
-                leader.emit("updateClubs", clubtype.type);
-                applicant.emit("updateApply", verify.userID);
+        socket.on("levelCheck", async () => {
+            if (!userID){
+                socket.emit("again");
+                return;
             }
 
-            else if (verify.approved == 1){
-                const verify2 = await db.approved.count({
-                    where: {
-                        applyID: applyID
-                    }
-                });
+            const data = await db.users.findOne({
+                attributes: ['level'],
+                where: {
+                    id: userID
+                }
+            });
 
-                if (verify2 <= 0) return;
-                
-                const approved = await db.approved.findOne({where: {applyID: applyID}});
-                await approved.destroy();
+            if (!data) return;
 
-                const apply = await db.apply.findByPk(applyID);
-                apply.approved = 0;
-                await apply.save();
-
-                leader.emit("updateClubs", clubtype.type);
-                applicant.emit("updateApply", verify.userID);
-            }
+            socket.emit("yourLevel", data.level);
         });
     });
 }

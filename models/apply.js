@@ -24,7 +24,7 @@ module.exports = (seq, DataTypes) => {
             type: DataTypes.TINYINT,
             default: 0
         }},
-        {tableName : "IDBIapply"}
+        {tableName : "apply"}
     );
 
     Apply.associate = (models) => {

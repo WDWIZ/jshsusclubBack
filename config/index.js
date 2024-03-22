@@ -12,9 +12,9 @@ const development = {
 
 const test = {
     "username": "root",
-    "password": "mineppl7783!",
-    "database": "jshsus",
-    "host": "localhost",
+    "password": "Hello00!",
+    "database": "plma",
+    "host": "points.jshsus.kr",
     "dialect": "mysql",
     "logging": false
 };

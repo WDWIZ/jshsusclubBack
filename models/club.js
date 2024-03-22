@@ -26,7 +26,7 @@ module.exports = (seq, DataTypes) => {
         }},
         
         {timestamps: false,
-        tableName: "IDBIclubs"}
+        tableName: "clubs"}
     );
 
     Club.associate = (models) => {

@@ -29,6 +29,7 @@ fs
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    model.tableName = process.env.DB_PREFIX + model.tableName;
     db[model.name] = model;
   });
 

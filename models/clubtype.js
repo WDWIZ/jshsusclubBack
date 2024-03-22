@@ -19,7 +19,7 @@ module.exports = (seq, DataTypes) => {
         }},
         
         {timestamps: false,
-        tableName : "IDBIclubtype"}
+        tableName : "clubtype"}
     );
 
     ClubType.associate = (models) => {
