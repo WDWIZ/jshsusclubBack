@@ -118,7 +118,7 @@ const socketHandler = (io, db) => {
                     approved: 0
                 });
 
-                leader.emit("updateClubs", {clubID: clubID, type: clubData.type});
+                leader.emit("updateClubs", {clubID: 0, type: clubData.type});
                 socket.emit("updateApply", [userID]);
             }
 
@@ -140,7 +140,7 @@ const socketHandler = (io, db) => {
                 const apply = await db.apply.findOne({where: {id: applied.id}});
                 await apply.destroy();
 
-                leader.emit("updateClubs", {clubID, clubtype});
+                leader.emit("updateClubs", {clubID: 0, type: clubData.type});
                 socket.emit("updateApply", [userID]);
             }
         });
