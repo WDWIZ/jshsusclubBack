@@ -285,7 +285,7 @@ const socketHandler = (io, db) => {
         socket.on("update", async (data) => {
             if (!userID) return;
 
-            if (data == {}) return;
+            if (JSON.stringify(data) === '{}') return;
 
             const approvedBy = userID;
             
