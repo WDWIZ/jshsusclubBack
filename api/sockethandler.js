@@ -285,6 +285,8 @@ const socketHandler = (io, db) => {
         socket.on("update", async (data) => {
             if (!userID) return;
 
+            if (data == {}) return;
+
             const approvedBy = userID;
             
             const clubData = await db.apply.findOne({
