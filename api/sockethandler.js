@@ -312,7 +312,7 @@ const socketHandler = (io, db) => {
                     }
                 });
 
-                targs.push(targ.userID);
+                applicant.emit("updateApply", [targ.userID]);
 
                 if (method == 0){
                     await db.approved.destroy({
@@ -329,7 +329,6 @@ const socketHandler = (io, db) => {
             });
 
             leader.emit("updateClubs", {clubID, clubtype});
-            console.log(targs);
         });
     });
 
