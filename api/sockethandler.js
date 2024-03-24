@@ -302,7 +302,7 @@ const socketHandler = (io, db) => {
 
             let targs = [];
 
-            Object.entries(data).map(async ([applyID, method]) => { 
+            await Object.entries(data).map(async ([applyID, method]) => { 
                 await db.apply.update({ approved: method }, {where: {id: applyID}});
 
                 const targ = await db.apply.findOne({
@@ -312,11 +312,7 @@ const socketHandler = (io, db) => {
                     }
                 });
 
-                console.log(applyID, targ.userID);
-
                 targs.push(targ.userID);
-
-                console.log(targs, targ.userID);
 
                 if (method == 0){
                     await db.approved.destroy({
@@ -333,10 +329,7 @@ const socketHandler = (io, db) => {
             });
 
             leader.emit("updateClubs", {clubID, clubtype});
-            Promise.all(targs).then(results => {
-                console.log(targs);
-                applicant.emit("updateApply", targs);
-            });
+            console.log(targs);
         });
     });
 
