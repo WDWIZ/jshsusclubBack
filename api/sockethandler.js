@@ -312,9 +312,11 @@ const socketHandler = (io, db) => {
                     }
                 });
 
-                console.log(applyID, targ);
+                console.log(applyID, targ.userID);
 
                 targs.push(targ.userID);
+
+                console.log(targs, targ.userID);
 
                 if (method == 0){
                     await db.approved.destroy({
