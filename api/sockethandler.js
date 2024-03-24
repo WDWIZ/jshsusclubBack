@@ -312,6 +312,8 @@ const socketHandler = (io, db) => {
                     }
                 });
 
+                console.log(applyID, targ);
+
                 targs.push(targ.userID);
 
                 if (method == 0){
