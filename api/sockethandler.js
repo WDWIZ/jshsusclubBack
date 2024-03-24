@@ -333,7 +333,10 @@ const socketHandler = (io, db) => {
             });
 
             leader.emit("updateClubs", {clubID, clubtype});
-            applicant.emit("updateApply", targs);
+            Promise.all(targs).then(results => {
+                console.log(targs);
+                applicant.emit("updateApply", targs);
+            });
         });
     });
 
